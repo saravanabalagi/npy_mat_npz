@@ -15,6 +15,8 @@ poetry install
 Activate `.venv` environment.
 If poetry is configured with `virtualenvs.in-project = true`, simply execute `. .venv/bin/activate`
 
+### Files
+
 ```
 python mat2npz.py file.mat
 python mat2npz.py file1.mat file2.mat file3.mat
@@ -24,3 +26,14 @@ python npz2mat.py file1.mat file2.mat file3.mat
 ```
 
 Output files are generated in the same directory as the source.
+
+### Directories
+
+Generates one `npz` file from a directory containing multiple `mat` files:
+
+```
+python matdir2npz.py dir1withmatfiles dir2withmatfiles
+# generates dir1withmatfiles.npz dir2withmatfiles.npz
+```
+
+Note: This script assumes that each of the `mat` files have only one variable inside and the `npz` dictionary contains values against the name of the `mat` files without extension.
