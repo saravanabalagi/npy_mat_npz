@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "mat_npy_npz"
+version = "0.1.0"
+description = ""
+authors = ["Saravanabalagi Ramachandran <saravanabalagi@hotmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+numpy = "^1.21.2"
+scipy = "^1.7.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
