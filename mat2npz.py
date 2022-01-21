@@ -13,5 +13,5 @@ for f in files:
     mat_vars.pop('__header__')
     mat_vars.pop('__globals__')
 
-    fn = os.path.splitext(os.path.basename(f))[0]
+    fn = os.path.splitext(f)[0]
     np.savez_compressed(fn, **mat_vars)
