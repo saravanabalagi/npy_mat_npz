@@ -1,8 +1,13 @@
 # npy mat npz
 
-Convert `npy` or `npz` to `mat` and `mat` to `npz` format.
+Convert:
+- `npy/npz` to `mat`
+- `mat/bin` to `npy/npz` format.
+- OpenCV FileStorage `yml` to `npz`
 
-Also useful for converting NetVLAD `mat` descriptors and `yml` descriptors saved using OpenCV FileStorage API to `npz` files, see below for more details.
+Bonus:
+- `npz` to `npz`, useful for map operations
+- Crop NetVLAD `npz` to smaller dimension
 
 ## Quick Install
 
@@ -42,13 +47,26 @@ python matdir2npz.py dir1withmatfiles dir2withmatfiles
 
 Note: This script assumes that each of the `mat` files have only one variable inside and the `npz` dictionary contains values against the name of the `mat` files without extension.
 
-## NetVLAD Mat Files
+## NetVLAD BIN Files
 
-[NetVLAD](https://github.com/Relja/netvlad) saves descriptors of images as a single [binary file](https://github.com/Relja/netvlad/blob/master/README_more.md#output-binary-files) which can then be read and saved as multiple .mat files, one for each image, in a `feats` directory. [matdir2npz.py](matdir2npz.py) shall be used to save this as a single npz file. For NetVLAD+whitening networks, the smaller dimensional descriptors can be generated using simple cropping.
+[NetVLAD](https://github.com/Relja/netvlad) saves descriptors of images as a single [binary file](https://github.com/Relja/netvlad/blob/master/README_more.md#output-binary-files). [matbin2npz.py](matbin2npz.py) shall be used to save this as a single `npz` file. For NetVLAD+whitening networks, the smaller dimensional descriptors can be generated using simple cropping.
 
 ```sh
-python matdir2npz.py /data/feats # outputs feats.npz
-python netvlad_crop.py /data/feats.npz 64 # outputs feats_dim64.npz
+expdir=path/to/dir/containing/bin/file
+
+# bin to npz
+python matbin2npz.py $expdir/feats.bin \
+    --dtype float32 \
+    --outfile $expdir/feats_dim4096 \
+    --reshape -1 4096 \
+    --filesdir $expdir/images
+
+# cropping to smaller dimensions
+for dim in 128 256 512 1024; do
+    python netvlad_crop.py $expdir/feats_dim4096.npz \
+        --dim $dim \
+        --outfile $expdir/feats_dim$dim
+done
 ```
 
 ## OpenCV YAML Files
