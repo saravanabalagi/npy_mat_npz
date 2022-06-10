@@ -2,3 +2,5 @@
 *.mat
 *.npz
 batch*.sh
+__tests__
+__pycache__
